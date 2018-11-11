@@ -4,24 +4,20 @@
  MODIFIED BY:				Zackh Tucker <tucker117> // Josiah McGurty <mcgurty1337>
  ELECTRONIC FILE LOCATIONS:	\\trace\Class\CSC-525-625\001\tucker117\projects\project2\
 							\\trace\Class\CSC-525-625\001\McGurty1337\projects\project2\
- CONTRIBUTION BREAKDOWN:	
+ CONTRIBUTION BREAKDOWN:
  LAST MODIFIED DATE:		11.5.2018
- DESCRIPTION:				Lab project 2, using GLUT to create a 
- NOTE:						
+ DESCRIPTION:				Lab project 2, using GLUT to create a
+ NOTE:
  FILES:						project2.cpp, (labProject.sln, ...)
  IDE/COMPILER:				MicroSoft Visual Studio 2017
  INSTRUCTION FOR COMPILATION AND EXECUTION:
-	0.		Copy file 'Mandelbrot.ppm' to C:\TEMP\Mandelbrot.ppm.
 	1.		Double click on projProject.sln	to OPEN the project
-	2.		a. In Solution Explorer, right-click 'projProject' and select Properties.
-			b. Select Preprocessor, Edit Preprocessor Definitions to include '_CRT_SECURE_NO_WARNINGS'.
-			c. Click OK, click OK.
 	2.		Press Ctrl+F7					to COMPILE
 	3.		Press Ctrl+F5					to EXECUTE
 ==================================================================================================*/
 
 #include <iostream>
-#include <gl/glut.h>
+#include <GL/glut.h>
 #include <math.h>
 #include <string>
 #include <vector>
@@ -47,7 +43,7 @@ void drawHelpMessage() {
 	string s6 = "-Display this help window";
 	string s7 = "-Set text options (color, font)";
 	string s8 = "-Save your work to a text file (C:\\TEMP\\typed.txt)";
-	string s9 = "\t-Exit the program";
+	string s9 = "-Exit the program";
 
 	glColor3f(1.0, 1.0, 1.0);
 
@@ -131,14 +127,14 @@ void myDisplayCallback1()
 //***********************************************************************************
 void myInit()
 {
-	glClearColor(0.3, 0.3, 0.3, 0);			// specify a background color: white 
+	glClearColor(0.3, 0.3, 0.3, 0);			// specify a background color: white
 	gluOrtho2D(0, 500, 0, 1000);  // specify a viewing area
 }
 
 //***********************************************************************************
 void myInfoInit()
 {
-	glClearColor(0.3, 0.3, 0.3, 0);			// specify a background color: white 
+	glClearColor(0.3, 0.3, 0.3, 0);			// specify a background color: white
 	gluOrtho2D(0, 710, 0, 300);  // specify a viewing area
 }
 
@@ -212,8 +208,8 @@ void myTypingFunc(unsigned char key, int x, int y) {
 		}
 		else {
 			s[lineNumber].pop_back();
-			//if none of the other conditions are met, 
-			//then pop the last char and continue. 
+			//if none of the other conditions are met,
+			//then pop the last char and continue.
 		}
 	}
 	else {
@@ -225,6 +221,7 @@ void myTypingFunc(unsigned char key, int x, int y) {
 
 //***********************************************************************************
 int main(int argc, char ** argv) {
+	glutInit(& argc, argv); // optional in some environments
 	glutInitWindowSize(500, 1000);
 	glutInitWindowPosition(100, 0);
 	glutCreateWindow("Editor Window");
