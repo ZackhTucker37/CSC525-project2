@@ -87,7 +87,7 @@ void drawHelpMessage() {
 }
 
 void typethings() {
-	glPointSize(1);		// change point size back to 1
+	glPointSize(1);		// change point size to 1
 
 	glColor3f(1, 1, 1);
 	if ((s[lineNumber].length() % 45 == 0 && s[lineNumber].length() != 0) || lineNumber == 0) {
@@ -146,14 +146,23 @@ void myInfoMouseCallback(int button, int state, int mouseX, int mouseY) {
 }
 
 //***********************************************************************************
-void FirstMenu(int x)
+void runMainMenu(int x)
 {
 	if (x == 4) {
-		cout << "message: " << text << endl;
+		cout << "Message: ";
+		for (int h = 0; h <= lineNumber; h++) {
+			for (int i = 0; i < s[h].length(); i++) {
+				cout << s[h][i];
+			}
+		}
+		cout << endl;
+		/*cout << "message: " << text << endl;*/
 		exit(0);
 	}
 
 	if (x == 1) {
+		glutInitWindowSize(710, 270);
+		glutInitWindowPosition(750, 0);
 		infoWindow = glutCreateWindow("Info Window");
 		myInfoInit();
 		glutDisplayFunc(myInfoDisplayCallback);
@@ -164,34 +173,28 @@ void FirstMenu(int x)
 //***********************************************************************************
 void runFontMenu(int x) {
 	myEditorDisplayCallback();
-	if (x == 1) {
-		font = 1;
-	}
-	if (x == 2) {
-		font = 2;
-	}
-	if (x == 3) {
-		font = 3;
-	}
+	if (x == 0) {font = 0;} // Times New Roman (10 pt)
+	if (x == 1) {font = 1;} // Helvetica (10 pt)
+	if (x == 2) {font = 2;} // Bitmap Font (8x13)
 }
 
 //***********************************************************************************
 void runColorMenu(int x) {
 	myEditorDisplayCallback();
-	if (x == 1) {
+	if (x == 0) { // Red
 		colorChosen[0] = 1.0;
 		colorChosen[1] = 0.0;
 		colorChosen[2] = 0.0;
 	}
-	if (x == 2) {
+	if (x == 1) { // Green
 		colorChosen[0] = 0.0;
 		colorChosen[1] = 1.0;
 		colorChosen[2] = 0.0;
 	}
-	if (x == 3) {
-		colorChosen[0] = 1.0;
-		colorChosen[1] = 1.0;
-		colorChosen[2] = 1.0;
+	if (x == 2) { // Blue
+		colorChosen[0] = 0.193;
+		colorChosen[1] = 0.459;
+		colorChosen[2] = 0.778;
 	}
 }
 
@@ -242,15 +245,16 @@ int main(int argc, char ** argv) {
 	glutKeyboardFunc(myTypingFunc);
 
 	int fontMenu = glutCreateMenu(runFontMenu);
-	glutAddMenuEntry("Times New Roman 24", 1);
-	glutAddMenuEntry("Helvetica 12", 2);
+	glutAddMenuEntry("Times New Roman (10 pt)", 0);
+	glutAddMenuEntry("Helvetica (10 pt)", 1);
+	glutAddMenuEntry("Bitmap Font (8x13)", 2);
 
-	int colorMenu = glutCreateMenu(runColorMenu);
-	glutAddMenuEntry("Red", 1);
-	glutAddMenuEntry("Green", 2);
-	glutAddMenuEntry("White", 3);
+	int colorMenu = glutCreateMenu(runColorHelvetica (10 pt)Menu);
+	glutAddMenuEntry("Red", 0);
+	glutAddMenuEntry("Green", 1);
+	glutAddMenuEntry("Blue", 2);
 
-	int mainMenu = glutCreateMenu(FirstMenu);
+	int mainMenu = glutCreateMenu(runMainMenu);
 	glutAddMenuEntry("Help", 1);
 	glutAddSubMenu("Font Selection", fontMenu);
 	glutAddSubMenu("Color Selection", colorMenu);
