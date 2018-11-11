@@ -149,13 +149,17 @@ void runMainMenu(int x) {
 		cout << endl;
 	}
 
-	if (x == 0) {
-		glutInitWindowSize(710, 270);
-		glutInitWindowPosition(750, 0);
-		infoWindow = glutCreateWindow("Info Window");
-		myInfoInit();
-		glutDisplayFunc(myInfoDisplayCallback);
-		glutMouseFunc(myInfoMouseCallback);
+	if (x == 0) { // Only re-create the Info window if it does not exist.
+		glutSetWindow(infoWindow);
+		int testWindow = glutGetWindow();
+		if (testWindow == 2) {
+			glutInitWindowSize(710, 270);
+			glutInitWindowPosition(750, 0);
+			infoWindow = glutCreateWindow("Info Window");
+			myInfoInit();
+			glutDisplayFunc(myInfoDisplayCallback);
+			glutMouseFunc(myInfoMouseCallback);
+		}
 	}
 }
 
