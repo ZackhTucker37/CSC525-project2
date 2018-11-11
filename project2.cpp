@@ -25,7 +25,7 @@ using namespace std;
 
 //****************************************************************************
 
-vector <string> s = { "" }; string text = "";
+vector <string> s = { "" };
 int lineNumber = 0;
 int lineHeight = 30;
 int editorWindow; int infoWindow;
@@ -88,14 +88,12 @@ void drawHelpMessage() {
 
 void typethings() {
 	glPointSize(1);		// change point size to 1
-
 	glColor3f(1, 1, 1);
 	if ((s[lineNumber].length() % 45 == 0 && s[lineNumber].length() != 0) || lineNumber == 0) {
 		//if statement characters in line does not = 0; each line is 45 characters, or line number is 0;
 		lineNumber++;
 		s.push_back("");
 	}
-
 	for (int h = 0; h <= lineNumber; h++) {
 		glRasterPos2i(0, 1000 - (lineHeight * h));
 		for (int i = 0; i < s[h].length(); i++) {
@@ -105,35 +103,27 @@ void typethings() {
 }
 
 //***********************************************************************************
-void myEditorDisplayCallback()
-{
+void myEditorDisplayCallback() {
 	glClear(GL_COLOR_BUFFER_BIT);	// draw the background
-
 	typethings();
-
 	glFlush(); // flush out the buffer contents
 }
 
 //***********************************************************************************
-void myInfoDisplayCallback()
-{
+void myInfoDisplayCallback() {
 	glClear(GL_COLOR_BUFFER_BIT);	// draw the background
-
 	drawHelpMessage();
-
 	glFlush(); // flush out the buffer contents
 }
 
 //***********************************************************************************
-void myInit()
-{
+void myInit() {
  	glClearColor(0.1, 0.1, 0.1, 0); // specify a background clor: dark gray
 	gluOrtho2D(0, 600, 0, 1000);  // specify a viewing area
 }
 
 //***********************************************************************************
-void myInfoInit()
-{
+void myInfoInit() {
 	glClearColor(0.1, 0.1, 0.1, 0); // specify a background clor: dark gray
 	gluOrtho2D(0, 710, 0, 270);  // specify a viewing area
 }
@@ -146,9 +136,8 @@ void myInfoMouseCallback(int button, int state, int mouseX, int mouseY) {
 }
 
 //***********************************************************************************
-void runMainMenu(int x)
-{
-	if (x == 4) {
+void runMainMenu(int x) {
+	if (x == 9) {
 		cout << "Message: ";
 		for (int h = 0; h <= lineNumber; h++) {
 			for (int i = 0; i < s[h].length(); i++) {
@@ -156,11 +145,10 @@ void runMainMenu(int x)
 			}
 		}
 		cout << endl;
-		/*cout << "message: " << text << endl;*/
 		exit(0);
 	}
 
-	if (x == 1) {
+	if (x == 0) {
 		glutInitWindowSize(710, 270);
 		glutInitWindowPosition(750, 0);
 		infoWindow = glutCreateWindow("Info Window");
@@ -203,7 +191,6 @@ void myTypingFunc(unsigned char key, int x, int y) {
 	if (key == 13) {
 		lineNumber++;
 		s.push_back("");
-		text += " ";
 	}
 	else if (key == 8) {
 		if (s[lineNumber].length() == 0 && lineNumber != 1) {
@@ -221,7 +208,6 @@ void myTypingFunc(unsigned char key, int x, int y) {
 	}
 	else {
 		s[lineNumber] += key;
-		text += key;
 	}
 	glutPostRedisplay();
 }
@@ -249,16 +235,16 @@ int main(int argc, char ** argv) {
 	glutAddMenuEntry("Helvetica (10 pt)", 1);
 	glutAddMenuEntry("Bitmap Font (8x13)", 2);
 
-	int colorMenu = glutCreateMenu(runColorHelvetica (10 pt)Menu);
+	int colorMenu = glutCreateMenu(runColorMenu);
 	glutAddMenuEntry("Red", 0);
 	glutAddMenuEntry("Green", 1);
 	glutAddMenuEntry("Blue", 2);
 
 	int mainMenu = glutCreateMenu(runMainMenu);
-	glutAddMenuEntry("Help", 1);
+	glutAddMenuEntry("Help", 0);
 	glutAddSubMenu("Font Selection", fontMenu);
 	glutAddSubMenu("Color Selection", colorMenu);
-	glutAddMenuEntry("Exit", 4);
+	glutAddMenuEntry("Exit", 9);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	glutMainLoop();							// get into an infinite loop
