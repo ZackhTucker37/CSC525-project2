@@ -5,17 +5,13 @@
  ELECTRONIC FILE LOCATIONS:	\\trace\Class\CSC-525-625\001\tucker117\projects\project2\
 							\\trace\Class\CSC-525-625\001\McGurty1337\projects\project2\
  CONTRIBUTION BREAKDOWN:	
- LAST MODIFIED DATE:		11.5.2018
- DESCRIPTION:				Lab project 2, using GLUT to create a 
+ LAST MODIFIED DATE:		11.11.2018
+ DESCRIPTION:				Lab project 2, using GLUT to create a basic text editor
  NOTE:						
  FILES:						project2.cpp, (labProject.sln, ...)
  IDE/COMPILER:				MicroSoft Visual Studio 2017
  INSTRUCTION FOR COMPILATION AND EXECUTION:
-	0.		Copy file 'Mandelbrot.ppm' to C:\TEMP\Mandelbrot.ppm.
 	1.		Double click on projProject.sln	to OPEN the project
-	2.		a. In Solution Explorer, right-click 'projProject' and select Properties.
-			b. Select Preprocessor, Edit Preprocessor Definitions to include '_CRT_SECURE_NO_WARNINGS'.
-			c. Click OK, click OK.
 	2.		Press Ctrl+F7					to COMPILE
 	3.		Press Ctrl+F5					to EXECUTE
 ==================================================================================================*/
@@ -28,7 +24,7 @@
 
 using namespace std;
 
-//****************************************************************************
+//***********************************************************************************************\\
 
 vector <string> s = { "" };
 int lineNumber = 0;
@@ -36,8 +32,9 @@ int lineHeight = 30;
 
 GLfloat colorChosen[3] = {0, 0, 0};
 
-int font;
+int font = 1;
 
+//***********************************************************************************
 void drawHelpMessage() {
 	string s1 = "Welcome to the best text editor ever!";
 	string s2 = "You may select from three fonts, three colors and even save your work!";
@@ -90,20 +87,28 @@ void drawHelpMessage() {
 	glEnd();
 }
 
+//***********************************************************************************
 void typethings() {
 	glPointSize(1);		// change point size back to 1
 
-	glColor3f(1, 1, 1);
+	glColor3f(colorChosen[0], colorChosen[1], colorChosen[2]);
 	if ((s[lineNumber].length() % 50 == 0 && s[lineNumber].length() != 0) || lineNumber == 0) {
 		//if statement characters in line does not = 0; each line is 50 characters, or line number is 0;
 		lineNumber++;
 		s.push_back("");
 	}
-
 	for (int h = 0; h <= lineNumber; h++) {
 		glRasterPos2i(0, 1000 - (lineHeight * h));
 		for (int i = 0; i < s[h].length(); i++) {
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[h][i]);
+			if (font == 1) {
+				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[h][i]);
+			}
+			if (font == 2) {
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, s[h][i]);
+			}
+			if (font == 3) {
+				glutBitmapCharacter(GLUT_BITMAP_9_BY_15, s[h][i]);
+			}
 		}
 	}
 }
@@ -113,6 +118,7 @@ void myDisplayCallback()
 {
 	glClear(GL_COLOR_BUFFER_BIT);	// draw the background
 
+	//glColor3f(colorChosen[0], colorChosen[1], colorChosen[2]);
 	typethings();
 
 	glFlush(); // flush out the buffer contents
@@ -235,7 +241,8 @@ int main(int argc, char ** argv) {
 
 	int fontMenu = glutCreateMenu(runFontMenu);
 	glutAddMenuEntry("Times New Roman 24", 1);
-	glutAddMenuEntry("Helvetica 12", 2);
+	glutAddMenuEntry("Helvetica 18", 2);
+	glutAddMenuEntry("Bitmap", 3);
 
 	int colorMenu = glutCreateMenu(runColorMenu);
 	glutAddMenuEntry("Red", 1);
