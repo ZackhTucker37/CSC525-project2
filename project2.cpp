@@ -4,7 +4,14 @@
  MODIFIED BY:				Zackh Tucker <tucker117> // Josiah McGurty <mcgurty1337>
  ELECTRONIC FILE LOCATIONS:	\\trace\Class\CSC-525-625\001\tucker117\projects\project2\
 							\\trace\Class\CSC-525-625\001\McGurty1337\projects\project2\
- CONTRIBUTION BREAKDOWN:	
+ CONTRIBUTION BREAKDOWN:	Zackh Tucker -- 50%
+								- basic setup of windows
+								- render text
+								- change color functionality
+								- change font type functionality
+								- Menu choices
+							Josiah McGurty -- 50%
+								- basic setup of windows
  LAST MODIFIED DATE:		11.11.2018
  DESCRIPTION:				Lab project 2, using GLUT to create a basic text editor
  NOTE:						
@@ -35,6 +42,13 @@ GLfloat colorChosen[3] = {0, 0, 0};
 int font = 1;
 
 //***********************************************************************************
+/*========================================
+	Function drawHelpMessage()
+	Uses rasterPos and bitmap_characters 
+	to render text on the screen. This 
+	function holds and renders all of the 
+	help text in the info window. 
+========================================*/
 void drawHelpMessage() {
 	string s1 = "Welcome to the best text editor ever!";
 	string s2 = "You may select from three fonts, three colors and even save your work!";
@@ -88,12 +102,19 @@ void drawHelpMessage() {
 }
 
 //***********************************************************************************
+/*========================================
+	Function typethings()
+	This function renders the text into the editor window. 
+	Using the global vector s, it finds the lineNumber by 
+	finding what line it should be on (by getting the modulo
+	of 50 (the length of each line)), and sets the rasterPos
+	equal to that number*height of each line (30 pixels)
+========================================*/
 void typethings() {
 	glPointSize(1);		// change point size back to 1
 
 	glColor3f(colorChosen[0], colorChosen[1], colorChosen[2]);
 	if ((s[lineNumber].length() % 50 == 0 && s[lineNumber].length() != 0) || lineNumber == 0) {
-		//if statement characters in line does not = 0; each line is 50 characters, or line number is 0;
 		lineNumber++;
 		s.push_back("");
 	}
@@ -149,6 +170,10 @@ void myInfoInit()
 }
 
 //***********************************************************************************
+/*========================================
+	Function myMouseCallback1()
+	This mouse callback function hides the help window if clicked within the window.
+========================================*/
 void myMouseCallback1(int button, int state, int mouseX, int mouseY) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		glutHideWindow();
@@ -203,6 +228,12 @@ void runColorMenu(int x) {
 }
 
 //***********************************************************************************
+/*========================================
+	Function myTypingFunc()
+	This keyboard callback function looks for "return" and "backspace" and
+	reacts accordingly. If neither of those buttons are pushed, then it is 
+	added to the vector s, which then gets rendered by typingthings(). 
+========================================*/
 void myTypingFunc(unsigned char key, int x, int y) {
 	if (key == 13) {
 		lineNumber++;
@@ -217,9 +248,7 @@ void myTypingFunc(unsigned char key, int x, int y) {
 			cout << "System Sound\n";
 		}
 		else {
-			s[lineNumber].pop_back();
-			//if none of the other conditions are met, 
-			//then pop the last char and continue. 
+			s[lineNumber].pop_back(); 
 		}
 	}
 	else {
