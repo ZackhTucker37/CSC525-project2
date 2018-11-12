@@ -3,11 +3,11 @@
  COURSE:					CSC-525-001
  MODIFIED BY:			Zackh Tucker <tucker117> & Josiah McGurty <McGurty1337>
  ELECTRONIC FILE LOCATIONS:	\\trace\Class\CSC-525-625\001\tucker117\projects\project2\
-														\\trace\Class\CSC-525-625\001\McGurty1337\projects\project2\
+                            \\trace\Class\CSC-525-625\001\McGurty1337\projects\project2\
  CONTRIBUTION BREAKDOWN:
  LAST MODIFIED DATE:		11.11.2018
  DESCRIPTION:			Lab project 2, learning to use GLUT to create
- 										 a (very) simple text editor with a few options.
+                   a (very) simple text editor with a few options.
  NOTE:
  FILES:						project2.cpp, (labProject.sln, ...)
  IDE/COMPILER:		MicroSoft Visual Studio 2017
@@ -18,13 +18,12 @@
 ======================================================================================*/
 
 #include <iostream>
+#include <fstream>
 #include <GL/glut.h>
 #include <string>
 #include <vector>
 
 using namespace std;
-
-//****************************************************************************
 
 vector <string> textStringVector = { "" };
 int lineNumber = 0; int lineHeight = 30;
@@ -75,10 +74,12 @@ int getLineLength(vector <string> stringVector, int lineNumber) {
 	int count = 0;
 	for (int i = 0; i < stringVector[lineNumber].length(); i++) {
 		//cout << stringVector[lineNumber][i];
-		if (stringVector[lineNumber][i] == '^') {
+		/*if (stringVector[lineNumber][i] == '^') {
 			count -= 4; i += 4;
-		} count += 1;
+		}*/
+		count += 1;
 	}
+	//cout << "Count: " << count << endl;
 	return count;
 }
 
@@ -87,8 +88,7 @@ void drawInputText() {
 	if (color == 0) {glColor3f(1.0, 0.0, 0.0);} // change drawing color to red
 	if (color == 1) {glColor3f(0.0, 1.0, 0.0);} // change drawing color to green
 	if (color == 2) {glColor3f(0.193, 0.459, 0.778);} // change drawing color to blue
-	if ((getLineLength(textStringVector, lineNumber) % 45 == 0 &&
-			 textStringVector[lineNumber].length() != 0) || lineNumber == 0) {
+	if ((textStringVector[lineNumber].length() % 45 == 0 && textStringVector[lineNumber].length() != 0) || lineNumber == 0) {
 		// if line is not empty and has 45 characters in length OR it's the first line
 		// increment lineNumber and create a new string in the vector for a new line of text
 		lineNumber++;
@@ -98,7 +98,7 @@ void drawInputText() {
 		int pos [] = {0, 0, 0, 0};
 		glRasterPos2i(0, y);
 		glGetIntegerv(GL_CURRENT_RASTER_POSITION, pos);
-		cout << "X pos: " << pos[0] << "; Y pos: " << pos[1] << endl;
+		//cout << "X pos: " << pos[0] << "; Y pos: " << pos[1] << endl;
 		for (int i = 0; i < textStringVector[h].length(); i++) {
 			if (font == 0) {glutBitmapCharacter(GLUT_BITMAP_8_BY_13, textStringVector[h][i]);}
 			if (font == 1) {glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textStringVector[h][i]);}
@@ -151,16 +151,16 @@ void myEditorMouseCallback(int button, int state, int mouseX, int mouseY) {
 void runMainMenu(int x) {
 	if (x == 9) {exit(0);}
 	if (x == 1) { //dump this to a text file instead of console
-		cout << "Message: ";
-		for (int h = 0; h <= lineNumber; h++) {
-			if (textStringVector[h].length() == 0) {
-				cout << "blank line" << endl;
-			}
-			for (int i = 0; i < textStringVector[h].length(); i++) {
-				cout << textStringVector[h][i];
-			}
-		} cout << endl;
-	} if (x == 0) {
+		ofstream outfile ("C:\\TEMP\\typed.txt");
+		if (outfile.is_open()) {
+			for (int h = 0; h <= lineNumber; h++) {
+			 for (int i = 0; i < textStringVector[h].length(); i++) {
+				outfile << textStringVector[h][i];
+		}
+		outfile << endl;
+	}
+} else { cout << "Error outputting file\n"; }
+} if (x == 0) {
 		glutSetWindow(infoWindow);
 		if (glutGetWindow() == 2) { // Only re-create the Info Window if it does not exist
 			glutInitWindowSize(710, 270);
@@ -191,7 +191,7 @@ void runColorMenu(int x) {
 
 //***********************************************************************************
 void myEditorTypingFunc(unsigned char key, int x, int y) {
-	if (key == 13) { //Enter
+	if (key == 13) { //Enter (Carriage Return)
 		lineNumber++;
 		textStringVector.push_back("");
 	} else if (key == 8) { //Backspace
@@ -205,9 +205,9 @@ void myEditorTypingFunc(unsigned char key, int x, int y) {
 			//if none of the other conditions are met,
 			//then pop the last char and continue.
 		}
-	} else {
+	} else if (key == 94) { /* do not a thing */ } else {
 		textStringVector[lineNumber] += key;
-		cout << "Key: " << key << endl;
+		//cout << "Key: " << key << endl;
 	} glutPostRedisplay();
 }
 
