@@ -12,6 +12,9 @@
 								- Menu choices
 							Josiah McGurty -- 50%
 								- basic setup of windows
+								- helped render text correctly
+								- implemented mouse-click to type in location
+								- save file functionality
  LAST MODIFIED DATE:		11.11.2018
  DESCRIPTION:				Lab project 2, using GLUT to create a basic text editor
  NOTE:						
